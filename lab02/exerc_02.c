@@ -32,12 +32,7 @@ int main(){
     for (int i = 0; i < n; i++)
         scanf("%d", &valores[i]);
 
-    //printf("%d", imprime_decrescente(n, valores));
-
-    //int teste = imprime_decrescente(valores, n);
-    //printf("%d", teste);
-
-    //imprime_decrescente(valores, n);
+    printf("Em ordem nao crescente fica: \n");
     ordena(valores, n);
     return 0;
 }
