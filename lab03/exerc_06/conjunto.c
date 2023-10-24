@@ -48,7 +48,7 @@ void le_conjunto(Conjunto con){
     }
 }
 
-int conjunto_pertence(int a, Conjunto con_a){
+char conjunto_pertence(int a, Conjunto con_a){
     int acc = 0;
     for (int i = 0; i < con_a.tamanho; i++){
         if (a == con_a.lista[i]){

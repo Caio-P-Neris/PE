@@ -10,7 +10,7 @@ void le_vetor(int tamanho, int vet[MAX] ){
 }
 
 int main(){
-    int tamanho, vet[MAX], v1[MAX], v2[MAX], a;
+    int tamanho, vet[MAX], v1[MAX], v2[MAX], a ;
     Conjunto con_a, con_b, unido;
     char pertence;
 
@@ -33,7 +33,7 @@ int main(){
 
     le_conjunto(unido);
     printf("\n");
-    printf("Qual numero voce gostaria de verificar se  pertence ao conjunto A? \n");
+    printf("Qual numero voce gostaria de verificar se  pertence ao conjunto A?\n ");
     scanf("%d", &a);
 
     printf("Se a seguinte linha retornar 1, ele percente. Se retornar 0, nao pertence \n");

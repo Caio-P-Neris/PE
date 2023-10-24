@@ -14,7 +14,7 @@ Conjunto conjunto(int vet[MAX], int tamanho);
 
 Conjunto conjunto_uniao(Conjunto con_a, Conjunto con_b);
 
-int conjunto_pertence(int a, Conjunto con_a);
+char conjunto_pertence(int a, Conjunto con_a);
 
 void le_conjunto(Conjunto con);
 
