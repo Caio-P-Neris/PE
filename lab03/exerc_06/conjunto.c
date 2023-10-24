@@ -47,3 +47,13 @@ void le_conjunto(Conjunto con){
         printf("%d  ", con.lista[i]);
     }
 }
+
+int conjunto_pertence(int a, Conjunto con_a){
+    int acc = 0;
+    for (int i = 0; i < con_a.tamanho; i++){
+        if (a == con_a.lista[i]){
+            acc = 1;
+        }
+    }
+    return acc;
+}
