@@ -13,6 +13,7 @@ typedef struct data Data;
 
 struct aluno{
     char nome[MAX];
+    char sobrenome[MAX];
     long long int ra;
     Data nascimento;
 
@@ -37,7 +38,12 @@ Aluno cadastro(){
    }
 
     for (i = 0; i < size_nome; i++){
-        alun.nome[i] = nome[i];
+        // if(nome[i] != ' '){
+            alun.nome[i] = nome[i];
+            // alun.nome[i] = '\0';
+        // }else{
+
+        // }    
     }
 
 
@@ -76,24 +82,41 @@ void busca_nome(int i, Aluno alunos[MAX]){
     nome[size_nome - 1] = '\0';
    }
 
+    char lista_sepNomes[MAX], lista_sep_nome[MAX];
+
     for (j = 0; j < i; j++){
-        if (strcmp(alunos[j].nome, nome) == 0){
-            strcpy(alun.nome, alunos[j].nome);
+        for( int b = 0; alunos[j].nome[b] != ' '; b++){
+            lista_sepNomes[b] = alunos[j].nome[b];
+
+        }
+        if (strcmp(lista_sepNomes[j], nome) == 0){
+            strcpy(alun.nome, lista_sepNomes[j]);
             alun.ra = alunos[j].ra;
             alun.nascimento = alunos[j].nascimento;
 
-            printf("Achei algo os seguintes alunos: \n");
+            printf("Achei algo o seguinte alunos \n");
             imprime_dados(alun);
         }
     }
 
 }
 
-// void busca_data(){
-//     Aluno alun;
+void busca_data(Aluno alunos[MAX], int i){
+    Aluno alun;
+    int ano, j;
 
+    printf("Digite um ano, iremos listar os alunos no intervalo desse ano \n");
+    scanf("%d", &ano);
 
-// }
+    for (j =0; j < i; j++ ){
+        alun = alunos[j];
+        if (ano == alun.nascimento.ano){
+            printf("Achamos o seguinte aluno: \n");
+            imprime_dados(alun);
+        }
+    }
+
+}
 
 
 int main(){
@@ -112,7 +135,7 @@ int main(){
             busca_nome(i, alunos);
 
         } else if( comando == 3){
-            //busca_data();
+            busca_data(alunos, i);
         }
 
         i += 1;
