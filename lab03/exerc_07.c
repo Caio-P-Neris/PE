@@ -38,8 +38,6 @@ Matriz matriz_le(int n){
         Matriz resultado;
         int elemento, soma = 0;
 
-    // [1, 2], [3,4] X [5,6], [7,8]
-
         for (int i = 0; i < matriz_a.nl_c; i++){
             for ( int j = 0; j < matriz_b.nl_c; j++){
                 soma = 0;

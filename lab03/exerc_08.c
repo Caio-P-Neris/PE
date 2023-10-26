@@ -38,12 +38,7 @@ Aluno cadastro(){
    }
 
     for (i = 0; i < size_nome; i++){
-        // if(nome[i] != ' '){
-            alun.nome[i] = nome[i];
-            // alun.nome[i] = '\0';
-        // }else{
-
-        // }    
+            alun.nome[i] = nome[i]; 
     }
 
 
@@ -70,7 +65,7 @@ void imprime_dados(Aluno alun){
 void busca_nome(int i, Aluno alunos[MAX]){
     Aluno alun;
     char nome[MAX];
-    int size_nome, j;
+    int size_nome, j, controle = 0;
 
     printf("Qual o nome ou sobrenome do aluno? \n");
     getchar();
@@ -82,28 +77,36 @@ void busca_nome(int i, Aluno alunos[MAX]){
     nome[size_nome - 1] = '\0';
    }
 
-    char lista_sepNomes[MAX], lista_sep_nome[MAX];
 
     for (j = 0; j < i; j++){
-        for( int b = 0; alunos[j].nome[b] != ' '; b++){
-            lista_sepNomes[b] = alunos[j].nome[b];
+        char temp_nome[MAX];
+        strcpy(temp_nome, alunos[j].nome);
+
+        char *nome_sep = strtok(temp_nome, " ");
+            while (nome_sep != NULL){
+                if (strcmp(nome_sep, nome) == 0){
+                    strcpy(alun.nome, alunos[j].nome);
+                    alun.ra = alunos[j].ra;
+                    alun.nascimento = alunos[j].nascimento;
+
+                    printf("Achei o seguinte aluno: \n");
+                    imprime_dados(alun);
+                    controle += 1;
+                    break;
+
+                }
+                nome_sep = strtok(NULL, " ");
+            }
 
         }
-        if (strcmp(lista_sepNomes[j], nome) == 0){
-            strcpy(alun.nome, lista_sepNomes[j]);
-            alun.ra = alunos[j].ra;
-            alun.nascimento = alunos[j].nascimento;
-
-            printf("Achei algo o seguinte alunos \n");
-            imprime_dados(alun);
-        }
+    if (controle == 0)
+        printf("Nao achei nenhum aluno com nome ou sobrenome informado \n");
     }
 
-}
 
 void busca_data(Aluno alunos[MAX], int i){
     Aluno alun;
-    int ano, j;
+    int ano, j, controle = 0;
 
     printf("Digite um ano, iremos listar os alunos no intervalo desse ano \n");
     scanf("%d", &ano);
@@ -113,8 +116,12 @@ void busca_data(Aluno alunos[MAX], int i){
         if (ano == alun.nascimento.ano){
             printf("Achamos o seguinte aluno: \n");
             imprime_dados(alun);
-        }
+            controle += 1;
+        } 
     }
+
+    if (controle == 0)
+        printf("Nao achei nenhum aluno que nasceu nesse ano");
 
 }
 

@@ -2,17 +2,16 @@
 #include <stdio.h>
 #define MAX 100
 
-int procura(char texto[MAX], char carac[MAX]){
-    int i, lugar; 
+int procura(char texto[MAX], char carac){
+    int i, lugar = -1; 
     for (i = 0; texto[i] != '\0'; i++){
-        if (texto[i] == carac[0]){
+        if (texto[i] == carac){
             lugar = i;
             break;
             return lugar;
-        }else{
-            return -1;
         }
     }
+    return lugar;
 }
 
 void nova_frase(char texto[MAX], int lugar, char final[MAX]){
@@ -24,12 +23,13 @@ void nova_frase(char texto[MAX], int lugar, char final[MAX]){
 }
 
 int main(){
-    char texto[MAX], carac[MAX], final[MAX];
-    int i, lugar;
+    char texto[MAX], carac, final[MAX];
+    int lugar;
 
     printf("Digite o caractere: \n");
-    fgets(carac, MAX, stdin);
+    carac = getchar();
     printf("Digite a frase: \n");
+    getchar();
     fgets(texto, MAX, stdin);
 
 
