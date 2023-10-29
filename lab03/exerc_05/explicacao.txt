@@ -1,0 +1,10 @@
+Olá professor!
+
+Como tentei te dizer numa das aulas, nesse exercício toda vez que aparecia uma quebra de linha o terminal nao entendia direito,
+de forma que ele terminava a leitura ali. Por isso fiz de duas maneiras, em exerc_05.c assumi que tudo ia ser informado em apenas 
+uma string. Já em exerc_05c.c fiz para que desse certo a quebra de linha, lendo a cada uma como uma string diferente. Porém tive que 
+"acrescentar" a condição para parar de ler entradas e retornar o texto reformatado quando numa linha recebesse apenas enter. 
+
+Como não sabia qual das duas opções era o desejado, deixei ambas. Porque de fato, nao sei se poderia ter essa "condição a mais",
+mas sem ele era impossivel colocar quebra de linha no meio da string sem cortar nela. 
+
