@@ -13,25 +13,22 @@ void swap(int *a, int *b){
 
 int main(){
 
-    int *a = malloc(sizeof(int));
-    int *b = malloc(sizeof(int));
+    int a, b;
 
     printf("Digite o inteiro a \n");
 
-    scanf("%d", &a[0]);
+    scanf("%d", &a);
 
     printf("Digite o inteiro b \n");
 
-    scanf("%d", &b[0]);
+    scanf("%d", &b);
 
-    swap(a,b);
+    swap(&a,&b);
 
-    printf("a: %d \n", a[0]);
-    printf("b: %d \n", b[0]);
+    printf("trocado: \n");
 
-    free(a);
-    free(b);
-
+    printf("a: %d \n", a);
+    printf("b: %d \n", b);
 
     return 0;
 }
