@@ -4,18 +4,18 @@
 #include <string.h>
 
 struct vector {
-    int* data;
+    void** data;
     int capacity; 
     int nelements; 
 };
 
 typedef struct vector* VectorInt;
 
-VectorInt vectorint(){
+VectorInt vectorint(void){
 
     VectorInt v = malloc(sizeof(struct vector));
     if (v){
-    //v->capacity = 0;
+
     v->data = malloc(sizeof(int));
     v->capacity = 1;
     v->nelements = 0;
@@ -24,19 +24,19 @@ VectorInt vectorint(){
     return v;
 }
 
-void vectorint_insert(VectorInt v, int a){
+void vectorint_insert(VectorInt v, void* a){
     if (v->nelements < v->capacity){
         v->data[v->nelements] = a;
         v->nelements += 1;
     }else{
         VectorInt v_novo = vectorint();
-        v_novo->capacity = (2*v->capacity);  //declara que a nova capacidade é o dobro da capacidade antiga
+        v_novo->capacity = (2*v->capacity); 
         v_novo->nelements = v->nelements;
         for (int i =0; i < v->nelements; i++){
-            v_novo->data[i] = v->data[i]; // copia toda 'data' do antigo pro novo
+            v_novo->data[i] = v->data[i]; 
             //v_novo->nelements += 1; 
         }
-        v_novo->data[v->nelements] = a; //ao fim do vetor data, adiocina o inteiro a digitado
+        v_novo->data[v->nelements] = a; 
         v_novo->nelements += 1; 
 
         free(v->data);
@@ -49,7 +49,7 @@ void vectorint_insert(VectorInt v, int a){
 
 }
 
-void verifica(VectorInt v, int a){
+void verifica(VectorInt v, void* a){
     int verificador = 0;
     for(int i = 0; i < v->nelements; i++){
         if (v->data[i] == a)
@@ -63,7 +63,7 @@ void verifica(VectorInt v, int a){
 
 }
 
-int procura(VectorInt v, int i){
+void* procura(VectorInt v, int i){
     int numero = -1;
     //if (v->capacity-1 >= i){
     if (v->nelements > i){
@@ -80,7 +80,7 @@ int conta(VectorInt v){
     return n_element;
 }
 
-void vectorint_remove(VectorInt v, int a){
+void vectorint_remove(VectorInt v, void* a){
 //     for (int i = 0; i < v->nelements; i++){
 //         if(v->data[i] == a){
 //    desolocou         for(int j = i; j < v->nelements; j++){
@@ -135,7 +135,8 @@ void limpa_memoria(VectorInt v){
 }
 
 int main(){
-    int a, i;
+    int* a = malloc(sizeof(int));
+    int* i = malloc(sizeof(int));
 
     VectorInt v = vectorint();
     int comando = 0;
@@ -156,22 +157,22 @@ int main(){
         if (comando == 1){
             printf("Digite o numero que deseja adicionar\n");
             scanf("%d", &a);
-            vectorint_insert(v, a);
+            vectorint_insert(v, (void*) a);
 
         } else if(comando == 2){ 
             printf("Digite o elemento que quer remover todas ocorrencias: \n");
             scanf("%d", &a);
-            vectorint_remove(v, a);
+            vectorint_remove(v, (void*) a);
 
         }else if (comando == 3){
             printf("Digite o numero que voce quer descobrir se pertence ao vetor: \n");
             scanf("%d", &a);
-            verifica(v, a);
+            verifica(v, (void*) a);
 
         } else if (comando == 4){
             printf("Digite a posicao, se retornar -1 e porque nao existe essa posicao, se encontrar, vai imprimir o numero\n");
             scanf("%d", &i);
-            int pos = procura(v,i);
+            int pos = procura(v,(void*) i);
             printf("%d \n", pos);
 
         } else if (comando ==5){
