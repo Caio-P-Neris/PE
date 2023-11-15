@@ -41,6 +41,7 @@ void vectorint_insert(VectorInt v, void* a){
 
         free(v->data);
         *v = *v_novo;
+        free(v_novo->data);
         free(v_novo);
 
     }
@@ -165,11 +166,13 @@ int main(){
             int* a_int = malloc(sizeof(int));
             scanf("%d", a_int);
             a = (void*)a_int;
+            free(a_int);
 
         } else if (comando_tipo == 7){
             char* a_char = malloc(sizeof(char));
             scanf(" %c", a_char);  
             a = (void*)a_char;
+            free(a_char);
             
         } else if(comando_tipo == 8){
             printf("Qual tamanho dessa string? \n");
@@ -177,6 +180,7 @@ int main(){
             char* a_str = malloc((m + 1) * sizeof(char));
             scanf("%s", a_str);
             a = (void*)a_str;
+            free(a_str);
         }
         
         printf("Digite o que deseja fazer agora\n");
@@ -271,6 +275,9 @@ if (comando == 1) {
         } 
     
     }
+
+    free(v);
+    free(a);
 
 
     return 0;
