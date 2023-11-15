@@ -28,41 +28,59 @@ void vectorint_insert(VectorInt v, void* a){
     if (v->nelements < v->capacity){
         v->data[v->nelements] = a;
         v->nelements += 1;
-    }else{
+    } else {
         VectorInt v_novo = vectorint();
-        v_novo->capacity = (2*v->capacity); 
+        v_novo->capacity = (2 * v->capacity); 
         v_novo->nelements = v->nelements;
-        for (int i =0; i < v->nelements; i++){
-            v_novo->data[i] = v->data[i]; 
-            //v_novo->nelements += 1; 
+        v_novo->data = malloc(v_novo->capacity * sizeof(void*));
+
+        // Copiar os ponteiros diretamente
+        for (int i = 0; i < v->nelements; i++) {
+            v_novo->data[i] = v->data[i];
         }
+
         v_novo->data[v->nelements] = a; 
         v_novo->nelements += 1; 
 
         free(v->data);
         *v = *v_novo;
-        free(v_novo->data);
         free(v_novo);
-
     }
+
     // printf("%d em %d -1 \n", a, v->nelements);
     // printf("%d\n", v->data[0]);
 
 }
 
-void verifica(VectorInt v, void* a){
+void verifica(VectorInt v, void* a, int comando_tipo) {
     int verificador = 0;
-    for(int i = 0; i < v->nelements; i++){
-        if (v->data[i] == a)
-            verificador += 1;
+
+    if (comando_tipo == 6) {
+        int a_int = *((int*)a);
+        for (int i = 0; i < v->nelements; i++) {
+            int* elemento_vetor = (int*)v->data[i];  // Convertendo para o tipo correto
+            if (*elemento_vetor == a_int) {
+                verificador += 1;
+                v->data[i] = (void*)elemento_vetor;  // Convertendo de volta para void*
+            }
+        }
+    } else if (comando_tipo == 7) {
+        char a_char = *((char*)a);
+        for (int i = 0; i < v->nelements; i++) {
+            char* elemento_vetor = (char*)v->data[i];  // Convertendo para o tipo correto
+            if (*elemento_vetor == a_char) {
+                verificador += 1;
+                v->data[i] = (void*)elemento_vetor;  // Convertendo de volta para void*
+            }
+        }
     }
 
     if (verificador == 0)
         printf("nao esta presente \n");
     else
         printf("esta presente \n");
-
 }
+
 
 void* procura(VectorInt v, int i) {
     void* elemento = NULL;
@@ -81,53 +99,62 @@ int conta(VectorInt v){
     return n_element;
 }
 
-void vectorint_remove(VectorInt v, void* a){
-//     for (int i = 0; i < v->nelements; i++){
-//         if(v->data[i] == a){
-//    desolocou         for(int j = i; j < v->nelements; j++){
-//                 v->data[j] = v->data[j+1];
+void vectorint_remove(VectorInt v, void* a, int comando_tipo) {
+    int count = 0;  // Contador para ocorrências do elemento a remover
 
-//             }
-//         v->nelements -= 1;
-//         }
-//     } //isso daqui ñ tava funcionando pra remover mais de um pq se fizer i +=1 sempre, acaba deixando sem verificar uma parte pq é deslocado
+    // Verifica o tipo de dados
+    switch (comando_tipo) {
+        case 6: {
+            int a_int = *((int*)a);
 
-    int i = 0;
-    //int j = 0;
+            for (int i = 0; i < v->nelements; i++) {
+                int* elemento_vetor = (int*)v->data[i];
 
-    while (i < v->nelements) {
-        if (v->data[i] == a) {
-            // Encontrou, ñ muda i para procurar outros depois que deslocar tudo pra esquerda
-            //v->nelements -= 1;  
-
-            for (int j = i; j < v->nelements-1 ; j++) {
-                v->data[j] = v->data[j + 1];
+                if (*elemento_vetor == a_int) {
+                    count++;
+                    free(elemento_vetor);
+                } else {
+                    // Se não for o elemento a ser removido, copia para o novo vetor
+                    v->data[i - count] = v->data[i];
+                }
             }
-
-            v->nelements -= 1;  
-            // if (i != 0)
-            //     i--;
-        } else {
-            i++;  // muda i só se ñ achou a no data[i]
+            break;
         }
+        case 7: {
+            char a_char = *((char*)a);
+
+            for (int i = 0; i < v->nelements; i++) {
+                char* elemento_vetor = (char*)v->data[i];
+
+                if (*elemento_vetor == a_char) {
+                    count++;
+                    free(elemento_vetor);
+                } else {
+                    // Se não for o elemento a ser removido, copia para o novo vetor
+                    v->data[i - count] = v->data[i];
+                }
+            }
+            break;
+        }
+        // Adicione mais casos conforme necessário para outros tipos
+        default:
+            printf("Tipo de comando desconhecido.\n");
+            return;
     }
 
-    if (v->nelements < (v->capacity/2)){
-        
-        v->capacity = v->capacity/2;
-        VectorInt v_novo = vectorint();
-        v_novo->capacity = v->capacity;
-        v_novo->nelements = v->nelements;
+    // Atualiza o número de elementos após a remoção
+    v->nelements -= count;
 
-        for (int i = 0; i < v_novo->nelements; i++){
-            v_novo->data[i] = v->data[i];
-        }
-
-        free(v->data);
-        *v = *v_novo;
+    // Se o número de elementos é inferior a 1/4 da capacidade, reduza a capacidade pela metade
+    if (v->nelements < (v->capacity / 2)) {
+        v->capacity /= 2;
+        v->data = realloc(v->data, v->capacity * sizeof(void*));
     }
-
 }
+
+
+
+
 
 void limpa_memoria(VectorInt v){
     free(v->data);
@@ -158,35 +185,14 @@ int main(){
     int m, comando_tipo;
 
     while (comando != -2){
-        printf("Digite o comando que explicite qual o tipo do dado a ser inserido / analisado \n");
-
-        scanf("%d", &comando_tipo);
-
-        if (comando_tipo == 6){
-            int* a_int = malloc(sizeof(int));
-            scanf("%d", a_int);
-            a = (void*)a_int;
-            free(a_int);
-
-        } else if (comando_tipo == 7){
-            char* a_char = malloc(sizeof(char));
-            scanf(" %c", a_char);  
-            a = (void*)a_char;
-            free(a_char);
-            
-        } else if(comando_tipo == 8){
-            printf("Qual tamanho dessa string? \n");
-            scanf("%d", &m);
-            char* a_str = malloc((m + 1) * sizeof(char));
-            scanf("%s", a_str);
-            a = (void*)a_str;
-            free(a_str);
-        }
-        
-        printf("Digite o que deseja fazer agora\n");
-        scanf("%d", &comando);
+    printf("Digite o que deseja fazer agora\n");
+    scanf("%d", &comando);
 
 if (comando == 1) {
+
+    printf("Digite o tipo do que vai adicionar. 6-> int, 7-> char, 8-> string\n");
+    scanf("%d", &comando_tipo);
+
     printf("Digite o que deseja adicionar\n");
 
     if (comando_tipo == 6) {
@@ -197,7 +203,7 @@ if (comando == 1) {
         char* a_char = malloc(sizeof(char));
         scanf(" %c", a_char);  // Adicionado espaço antes de %c para ignorar espaços em branco
         a = (void*)a_char;
-    } else if (comando_tipo == 8) {
+    } else if (comando_tipo == 8) { // arrumar string
         printf("Digite a string: \n");
         char* a_str = malloc((m + 1) * sizeof(char));
         fgets(a_str, m + 1, stdin);  // m + 1 para incluir o caractere de nova linha
@@ -207,6 +213,9 @@ if (comando == 1) {
     vectorint_insert(v, a);
 
 } else if (comando == 2) {
+    printf("Digite o tipo do que vai tirar. 6-> int, 7-> char, 8-> string\n");
+    scanf("%d", &comando_tipo);
+
     printf("Digite o elemento que quer remover todas ocorrencias: \n");
 
     if (comando_tipo == 6) {
@@ -224,9 +233,12 @@ if (comando == 1) {
         a = (void*)a_str;
     }
 
-    vectorint_remove(v, a);
+    vectorint_remove(v, a, comando_tipo);
 
 } else if (comando == 3) {
+    printf("Digite o tipo do que quer descobrir. 6-> int, 7-> char, 8-> string\n");
+    scanf("%d", &comando_tipo);
+
     printf("Digite o que voce quer descobrir se pertence ao vetor: \n");
 
     if (comando_tipo == 6) {
@@ -244,37 +256,37 @@ if (comando == 1) {
         a = (void*)a_str;
     }
 
-    verifica(v, a);
+    verifica(v, a, comando_tipo);
 
-        } else if (comando == 4) {
-            printf("Digite a posicao, se retornar NULL e porque nao existe essa posicao, se encontrar, vai imprimir o que esta nela\n");
-            scanf("%d", &i);
-            
-            void* resultado = procura(v, i);
-
-            if (resultado != NULL) {
-
-                if (comando_tipo == 6) {
-                    printf("%d\n", *((int*)resultado));
-                } else if (comando_tipo== 7) {
-                    printf("%c\n", *((char*)resultado));
-                } else if (comando_tipo == 8) {
-                    printf("%s\n", (char*)resultado);
-                }
-            } else {
-                printf("Posicao nao existe no vetor.\n");
-            }
-
-        } else if (comando ==5){
-            int n_element = conta(v);
-            printf("quantidade atual de elementos: %d\n", n_element);
-        } else if (comando == -1){
-            printf("A memoria total foi liberada e o programa vai encerrar \n");
-            limpa_memoria(v);
-            comando = -2;
-        } 
+} else if (comando == 4) {
+    printf("Digite a posicao, se encontrar, vai imprimir o que esta nela\n");
+    scanf("%d", &i);
     
+    void* resultado = procura(v, i);
+
+    if (resultado != NULL) {
+
+        if (comando_tipo == 6) {
+            printf("%d\n", *((int*)resultado));
+        } else if (comando_tipo== 7) {
+            printf("%c\n", *((char*)resultado));
+        } else if (comando_tipo == 8) {
+            printf("%s\n", (char*)resultado);
+        }
+    } else {
+        printf("Posicao nao existe no vetor.\n");
     }
+
+} else if (comando ==5){
+    int n_element = conta(v);
+    printf("quantidade atual de elementos: %d\n", n_element);
+} else if (comando == -1){
+    printf("A memoria total foi liberada e o programa vai encerrar \n");
+    limpa_memoria(v);
+    comando = -2;
+} 
+
+}
 
     free(v);
     free(a);
