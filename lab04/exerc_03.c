@@ -17,7 +17,7 @@ int main(){
 
         scanf("%d", &vetor[i]);
 
-        printf("entrada %d, conteudo %d, endereco: %u \n", i, vetor[i], (unsigned int)&vetor[i]);
+        printf("entrada %d, conteudo %d, endereco: %lld \n", i, vetor[i], (long long int)&vetor[i]);
 
     }
 

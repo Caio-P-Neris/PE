@@ -35,5 +35,6 @@ int main(){
         printf("%.2f\n", v[i]);
     }
 
+    free(v);
     return 0;
 }

@@ -43,6 +43,7 @@ void vectorint_insert(VectorInt v, int a){
         *v = *v_novo;
         free(v_novo);
 
+
     }
     // printf("%d em %d -1 \n", a, v->nelements);
     // printf("%d\n", v->data[0]);
@@ -185,6 +186,6 @@ int main(){
     
     }
 
-
+    free(v);
     return 0;
 }
