@@ -70,7 +70,9 @@ int main(){
 
     printf("Se retornar 1 o conteudo apontado por um aluno e o mesmo que o outro, se retornar 0 e diferente \n");
 
-    printf("%c", resp);
+    printf("%c\n", resp);
 
+    free(a);
+    free(b);
     return 0;
 }

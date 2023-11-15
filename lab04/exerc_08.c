@@ -59,6 +59,7 @@ int main(){
     }
 
     free(vetor);
-
+    free(v1);
+    free(v2);
     return 0;
 }

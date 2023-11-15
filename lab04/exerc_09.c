@@ -36,7 +36,7 @@ int main(){
 
     char *invertido = revert(s);
 
-    printf("%s", invertido);
+    printf("%s\n", invertido);
 
 
     free(invertido);
