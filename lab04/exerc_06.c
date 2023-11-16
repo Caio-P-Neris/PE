@@ -2,18 +2,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void swap(int *a, int *b, int taman){
+void swap(int **a, int **b){
 
-    int temp;
+    int *temp = *b;
 
-    for ( int i = 0; i < taman; i++){
-        temp = *(a + i);
+    *b = *a;
 
-        *(a + i) = *(b + i);
-
-        *(b + i) = temp;
-
-    }
+    *a = temp;
+    
 
 }
 
@@ -54,7 +50,7 @@ int main(){
     for (i = 0; i < m; i++)
         scanf("%d", &b[i]);
 
-    swap(a,b, taman);
+    swap(&a,&b);
 
     printf("a ficou: \n");
     for(i = 0; i <m; i++)

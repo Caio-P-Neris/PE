@@ -30,13 +30,13 @@ void vectorint_insert(VectorInt v, int a){
         v->nelements += 1;
     }else{
         VectorInt v_novo = vectorint();
-        v_novo->capacity = (2*v->capacity);  //declara que a nova capacidade é o dobro da capacidade antiga
+        v_novo->capacity = (2*v->capacity); 
         v_novo->nelements = v->nelements;
         for (int i =0; i < v->nelements; i++){
-            v_novo->data[i] = v->data[i]; // copia toda 'data' do antigo pro novo
-            //v_novo->nelements += 1; 
+            v_novo->data[i] = v->data[i]; 
+
         }
-        v_novo->data[v->nelements] = a; //ao fim do vetor data, adiocina o inteiro a digitado
+        v_novo->data[v->nelements] = a; 
         v_novo->nelements += 1; 
 
         free(v->data);
@@ -45,7 +45,7 @@ void vectorint_insert(VectorInt v, int a){
 
 
     }
-    // printf("%d em %d -1 \n", a, v->nelements);
+
     // printf("%d\n", v->data[0]);
 
 }
@@ -82,18 +82,7 @@ int conta(VectorInt v){
 }
 
 void vectorint_remove(VectorInt v, int a){
-//     for (int i = 0; i < v->nelements; i++){
-//         if(v->data[i] == a){
-//    desolocou         for(int j = i; j < v->nelements; j++){
-//                 v->data[j] = v->data[j+1];
-
-//             }
-//         v->nelements -= 1;
-//         }
-//     } //isso daqui ñ tava funcionando pra remover mais de um pq se fizer i +=1 sempre, acaba deixando sem verificar uma parte pq é deslocado
-
     int i = 0;
-    //int j = 0;
 
     while (i < v->nelements) {
         if (v->data[i] == a) {
@@ -105,8 +94,7 @@ void vectorint_remove(VectorInt v, int a){
             }
 
             v->nelements -= 1;  
-            // if (i != 0)
-            //     i--;
+
         } else {
             i++;  // muda i só se ñ achou a no data[i]
         }
