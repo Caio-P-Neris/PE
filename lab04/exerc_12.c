@@ -308,6 +308,7 @@ if (comando == 1) {
 } 
 }
 
+    free(v->data);
     free(v);
     free(a);
 
