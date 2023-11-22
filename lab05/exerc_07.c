@@ -8,6 +8,7 @@ int func(int n, int k){
             return func(n-1, k-1) + func(n-1, k);
         }
     }
+    return -1;
 }
 
 int main(){
